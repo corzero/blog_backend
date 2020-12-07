@@ -2,6 +2,7 @@ export interface NewUser {
   username: string,
   password: string,
   email: string,
+  role: string,
   desc?: string,
   address?: string,
   tag?: string[]

@@ -16,6 +16,9 @@ export class CreateUserDTO {
   @Rule(RuleType.array().default('user'))
   role: string;
 
+  @Rule(RuleType.string().default('https://pic1.zhimg.com/80/v2-5f9d23aa670229fb783c40de02ab034a_720w.jpg'))
+  avatar: string;
+
   @Rule(RuleType.string().default(''))
   address: string;
 

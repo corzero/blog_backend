@@ -25,6 +25,9 @@ export class User {
   @Column({comment:'admin|guest|user'})
   role: string;
 
+  @Column({comment:'头像'})
+  avatar: string;
+
   @OneToMany(type => Tag, tag => tag.users)
   tags: Tag[];
 
