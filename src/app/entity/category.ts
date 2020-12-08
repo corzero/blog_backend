@@ -12,6 +12,9 @@ export class Category {
   @Column({length:50})
   title: string;
 
+  @Column({length:200})
+  desc: string;
+
   @OneToMany(type => Article, articles => articles.category)
   articles: Article[];
 

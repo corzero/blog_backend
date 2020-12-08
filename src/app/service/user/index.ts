@@ -1,4 +1,5 @@
-import { Provide } from '@midwayjs/decorator';
+import { Context } from 'egg';
+import { Provide, Inject } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { User } from '../../entity/user';
 import { Repository } from 'typeorm';
@@ -6,6 +7,9 @@ import { ModifyUser, NewUser, FilterUser } from './interface'
 
 @Provide()
 export class UserService {
+
+  @Inject()
+  ctx: Context
 
   @InjectEntityModel(User)
 	userModel: Repository<User>;
@@ -17,7 +21,7 @@ export class UserService {
       const result = await this.userModel.save(user);
       return result
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -28,7 +32,7 @@ export class UserService {
       const { uid, ...rest } = Object.assign(user,params)
       return await this.userModel.update(rest,{uid});
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -51,7 +55,7 @@ export class UserService {
       return {result,total}
 
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -61,7 +65,7 @@ export class UserService {
       const result = await this.userModel.findOne({uid});
       return result
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return null
     }
   }
@@ -76,7 +80,7 @@ export class UserService {
         .getOne();
       return result
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return null
     }
   }

@@ -1,4 +1,5 @@
-import { Provide } from '@midwayjs/decorator';
+import { Context } from 'egg';
+import { Provide, Inject } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { Tag } from '../../entity/tag';
 import { Repository } from 'typeorm';
@@ -6,6 +7,9 @@ import { ModifyTag, NewTag, FilterTag } from './interface'
 
 @Provide()
 export class TagService {
+
+  @Inject()
+  ctx: Context
 
   @InjectEntityModel(Tag)
 	tagModel: Repository<Tag>;
@@ -16,7 +20,7 @@ export class TagService {
       Object.assign(tag,params)
       return await this.tagModel.save(tag);
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -27,7 +31,7 @@ export class TagService {
       const { uid, ...rest } = Object.assign(tag,params)
       return await this.tagModel.update(rest,{uid});
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -50,7 +54,7 @@ export class TagService {
       return { result, total }
 
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -59,7 +63,7 @@ export class TagService {
     try {
       return await this.tagModel.findOne({uid})
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return null
     }
   }
@@ -71,7 +75,7 @@ export class TagService {
         .execute();
       return result
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return null
     }
   }

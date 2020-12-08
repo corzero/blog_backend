@@ -1,4 +1,5 @@
-import { Provide } from '@midwayjs/decorator';
+import { Context } from 'egg';
+import { Provide, Inject } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { Article } from '../../entity/article';
 import { Repository } from 'typeorm';
@@ -6,6 +7,9 @@ import { ModifyArticle, NewArticle, FilterArticle } from './interface'
 
 @Provide()
 export class ArticleService {
+
+  @Inject()
+  ctx: Context
 
   @InjectEntityModel(Article)
 	articleModel: Repository<Article>;
@@ -16,7 +20,7 @@ export class ArticleService {
       Object.assign(article,params)
       return await this.articleModel.save(article);
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -27,7 +31,7 @@ export class ArticleService {
       const { uid, ...rest } = Object.assign(article,params)
       return await this.articleModel.update(rest,{uid});
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -50,7 +54,7 @@ export class ArticleService {
       return { result, total }
 
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -59,7 +63,7 @@ export class ArticleService {
     try {
       return await this.articleModel.findOne({uid})
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return null
     }
   }
@@ -71,7 +75,7 @@ export class ArticleService {
         .execute();
       return result
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return null
     }
   }

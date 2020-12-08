@@ -1,5 +1,6 @@
 export interface NewCategory {
   title: string,
+  desc: string,
 }
 
 export interface ModifyCategory extends NewCategory {

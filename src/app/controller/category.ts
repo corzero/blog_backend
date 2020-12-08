@@ -20,18 +20,19 @@ export class CategoryController {
       const result =  await this.categoryService.getCategoryById(uid)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
 
-  @Get('/list')
+  @Post('/list')
   async getCategoryList(@Body(ALL) filter: FilterCategoryDTO) {
     try {
+      console.log(filter)
       const result = await this.categoryService.searchList(filter)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -42,7 +43,7 @@ export class CategoryController {
       const result = await this.categoryService.createCategory(params)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -53,7 +54,7 @@ export class CategoryController {
       const result = await this.categoryService.modifyCategory(params)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -64,7 +65,7 @@ export class CategoryController {
       const result = await this.categoryService.delCategories(params.ids)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }

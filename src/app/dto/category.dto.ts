@@ -5,6 +5,9 @@ export class CreateCategoryDTO {
   @Rule(RuleType.string().required())
   title: string;
 
+  @Rule(RuleType.string())
+  desc: string;
+
 }
 
 export class ModifyCategoryDTO extends CreateCategoryDTO{
@@ -15,7 +18,7 @@ export class ModifyCategoryDTO extends CreateCategoryDTO{
 }
 export class FilterCategoryDTO {
   @Rule(RuleType.string())
-  title: string;
+  title?: string;
 
   @Rule(RuleType.date())
   create_time?: Date;

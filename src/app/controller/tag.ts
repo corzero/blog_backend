@@ -20,7 +20,7 @@ export class TagController {
       const result =  await this.tagService.getTagById(uid)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -31,7 +31,7 @@ export class TagController {
       const result = await this.tagService.searchList(filter)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -42,7 +42,7 @@ export class TagController {
       const result = await this.tagService.createTag(params)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -53,7 +53,7 @@ export class TagController {
       const result = await this.tagService.modifyTag(params)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -64,7 +64,7 @@ export class TagController {
       const result = await this.tagService.delTags(params.ids)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }

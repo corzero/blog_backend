@@ -57,7 +57,7 @@ export class UserController {
         this.ctx.body = this.ctx.helper.errorRes('更新失败，请检查信息内容')
       }
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes('更新失败')
     }
   }
@@ -67,11 +67,11 @@ export class UserController {
   async register(@Body(ALL) user: CreateUserDTO ): Promise<any> {
     try {
       user.password = this.ctx.helper.createBcrypt(user.password)
-      console.log(user.password)
+      this.ctx.logger.info(user.password)
       const result = await this.userService.createUser(user)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log('\n\n\ncatch 错误:',error)
+      this.ctx.logger.error('\n\n\ncatch 错误:',error)
       this.ctx.body = this.ctx.helper.errorRes(500,'inside error')
     }
   }
@@ -83,7 +83,7 @@ export class UserController {
       const result = await this.userService.searchList(filter)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500,'查询失败')
     }
   }
@@ -96,7 +96,7 @@ export class UserController {
       const result = await this.userService.getUserById(uid)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500,'查询失败')
     }
   }
@@ -108,7 +108,7 @@ export class UserController {
       const { iat, exp, ...rest } = await this.jwt.verify(token,this.jwtConfig.secret)
       this.ctx.body = this.ctx.helper.successRes(rest)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(400,'获取失败')
     }
   }
@@ -118,7 +118,7 @@ export class UserController {
     try {
       const { token, uid } = params
       const { uid: uuid } = await this.jwt.verify(token,this.jwtConfig.secret)
-      console.log(uuid,uid )
+      this.ctx.logger.info(uuid,uid )
       if(uid === uuid){
         this.ctx.body = this.ctx.helper.successRes([{
           id: '000000001',
@@ -219,7 +219,7 @@ export class UserController {
         this.ctx.body = this.ctx.helper.errorRes(400,'获取失败')
       }
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(400,'获取失败')
     }
   }

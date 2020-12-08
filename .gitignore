@@ -2,3 +2,5 @@ node_modules
 src/config/config.default.ts
 run
 logs
+.DS_Store
+src/.DS_Store

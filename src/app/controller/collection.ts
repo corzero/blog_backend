@@ -21,7 +21,7 @@ export class CollectionController {
       const result = await this.collectionService.searchList(filter)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -32,7 +32,7 @@ export class CollectionController {
       const result = await this.collectionService.createCollection(params)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -43,7 +43,7 @@ export class CollectionController {
       const result = await this.collectionService.delCollections(params)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }

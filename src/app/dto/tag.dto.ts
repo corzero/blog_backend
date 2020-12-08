@@ -5,6 +5,9 @@ export class CreateTagDTO {
   @Rule(RuleType.string().required())
   title: string;
 
+  @Rule(RuleType.string())
+  desc: string;
+
   @Rule(RuleType.number().required())
   type: number;
 
@@ -18,7 +21,7 @@ export class ModifyTagDTO extends CreateTagDTO{
 }
 export class FilterTagDTO {
   @Rule(RuleType.string())
-  title: string;
+  title?: string;
 
   @Rule(RuleType.number())
   type: number;

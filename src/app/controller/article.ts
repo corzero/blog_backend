@@ -20,7 +20,7 @@ export class ArticleController {
       const result =  await this.articleService.getArticleById(uid)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -31,7 +31,7 @@ export class ArticleController {
       const result = await this.articleService.searchList(filter)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -42,7 +42,7 @@ export class ArticleController {
       const result = await this.articleService.createArticle(params)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -53,7 +53,7 @@ export class ArticleController {
       const result = await this.articleService.modifyArticle(params)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }
@@ -64,7 +64,7 @@ export class ArticleController {
       const result = await this.articleService.delArticle(params.ids)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)
     }
   }

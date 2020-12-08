@@ -1,4 +1,5 @@
-import { Provide } from '@midwayjs/decorator';
+import { Context } from 'egg';
+import { Provide, Inject } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { Collection } from '../../entity/collection';
 import { Repository } from 'typeorm';
@@ -6,6 +7,9 @@ import { NewCollection, FilterCollection, DelCollection } from './interface'
 
 @Provide()
 export class CollectionService {
+
+  @Inject()
+  ctx: Context
 
   @InjectEntityModel(Collection)
 	collectionModel: Repository<Collection>;
@@ -16,7 +20,7 @@ export class CollectionService {
       Object.assign(collection,params)
       return await this.collectionModel.save(collection);
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -37,7 +41,7 @@ export class CollectionService {
       return { result, total }
 
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return false
     }
   }
@@ -50,7 +54,7 @@ export class CollectionService {
         .execute();
       return result
     } catch (error) {
-      console.log(error)
+      this.ctx.logger.error(error)
       return null
     }
   }

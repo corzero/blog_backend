@@ -12,6 +12,9 @@ export class Tag {
   @Column({length:50})
   title: string;
 
+  @Column({length:200})
+  desc: string;
+
   @Column({
     comment:'0:user, 1:article'
   })
