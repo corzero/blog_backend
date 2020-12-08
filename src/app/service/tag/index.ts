@@ -17,7 +17,7 @@ export class TagService {
   async createTag(params:NewTag){
     try {
       let tag = new Tag();
-      Object.assign(tag,params)
+      tag = { ...tag, ...params }
       return await this.tagModel.save(tag);
     } catch (error) {
       this.ctx.logger.error(error)
@@ -27,9 +27,10 @@ export class TagService {
 
   async modifyTag(params: ModifyTag){
     try {
-      let tag = new Tag();
-      const { uid, ...rest } = Object.assign(tag,params)
-      return await this.tagModel.update(rest,{uid});
+      const { uid, ...rest } = params
+      let qb = this.tagModel
+          .createQueryBuilder('tag')
+      return await qb.update(rest).where('uid = :uid', { uid }).execute()
     } catch (error) {
       this.ctx.logger.error(error)
       return false
@@ -38,21 +39,25 @@ export class TagService {
 
   async searchList(filter: FilterTag){
     try {
-      const { title, type } = filter
+      const { title, pageSize, pageNo } = filter
+      console.log('filter',filter)
+      this.ctx.logger.info(filter)
+      let qb = this.tagModel
+          .createQueryBuilder('tag')
+      if(title){
+        const total = qb.where('title = :title',{title:`%${title}%`})
+          .getCount()
 
-      const qb = this.tagModel
-        .createQueryBuilder('tag')
-      const total = qb.where('title = :title',{title:`%${title}%`})
-        .orWhere('type = :type',{ type })
-        .getCount()
-
-      const result = qb.where('title = :title',{title:`%${title}%`})
-        .orWhere('type = :type',{ type })
-        .skip(filter.pageSize * (filter.pageNo - 1))
-        .take(filter.pageSize)
-
-      return { result, total }
-
+        const result = qb.where('title = :title',{title:`%${title}%`})
+          .skip(pageSize * (filter.pageNo - 1))
+          .take(pageSize)
+        return { result, total }
+      } else {
+        qb = await qb.select()
+        const total = await qb.getCount()
+        const list = await qb.take(pageSize).skip((pageNo - 1) * pageSize).getMany()
+        return { list, total }
+      }
     } catch (error) {
       this.ctx.logger.error(error)
       return false

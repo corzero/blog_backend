@@ -8,7 +8,7 @@ export class CreateTagDTO {
   @Rule(RuleType.string())
   desc: string;
 
-  @Rule(RuleType.number().required())
+  @Rule(RuleType.number().default(1))
   type: number;
 
 }

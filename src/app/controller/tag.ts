@@ -1,5 +1,5 @@
 import { Context } from 'egg';
-import { Controller, Get, Inject, Provide, Post, Del, Body, ALL, Param } from '@midwayjs/decorator';
+import { Controller, Get, Inject, Provide, Post, Del, Body, ALL, Param, Put } from '@midwayjs/decorator';
 import { TagService } from '../service/tag'
 import { FilterTagDTO,ModifyTagDTO,CreateTagDTO } from '../dto/tag.dto'
 import { AIP_PREFIX } from '../../config/config.default'
@@ -25,7 +25,7 @@ export class TagController {
     }
   }
 
-  @Get('/list')
+  @Post('/list')
   async getTagList(@Body(ALL) filter: FilterTagDTO) {
     try {
       const result = await this.tagService.searchList(filter)
@@ -39,6 +39,7 @@ export class TagController {
   @Post('/create')
   async createTag(@Body(ALL) params: CreateTagDTO) {
     try {
+      console.log('params\n\n\n', params)
       const result = await this.tagService.createTag(params)
       this.ctx.body = this.ctx.helper.successRes(result)
     } catch (error) {
@@ -47,7 +48,7 @@ export class TagController {
     }
   }
 
-  @Post('/modify')
+  @Put('/')
   async modifyTag(@Body(ALL) params: ModifyTagDTO) {
     try {
       const result = await this.tagService.modifyTag(params)

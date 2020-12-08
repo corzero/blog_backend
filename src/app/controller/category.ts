@@ -1,5 +1,5 @@
 import { Context } from 'egg';
-import { Controller, Get, Inject, Provide, Post, Del, Body, ALL, Param } from '@midwayjs/decorator';
+import { Controller, Get, Inject, Provide, Post, Del, Body, ALL, Param, Put } from '@midwayjs/decorator';
 import { CategoryService } from '../service/category'
 import { FilterCategoryDTO,ModifyCategoryDTO,CreateCategoryDTO } from '../dto/category.dto'
 import { AIP_PREFIX } from '../../config/config.default'
@@ -48,11 +48,11 @@ export class CategoryController {
     }
   }
 
-  @Post('/modify')
+  @Put('/')
   async modifyCategory(@Body(ALL) params: ModifyCategoryDTO) {
     try {
       const result = await this.categoryService.modifyCategory(params)
-      this.ctx.body = this.ctx.helper.successRes(result)
+      this.ctx.body = this.ctx.helper.successRes(!!result)
     } catch (error) {
       this.ctx.logger.error(error)
       this.ctx.body = this.ctx.helper.errorRes(500, error.message)

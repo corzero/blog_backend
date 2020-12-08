@@ -16,7 +16,8 @@ export class Tag {
   desc: string;
 
   @Column({
-    comment:'0:user, 1:article'
+    comment:'0:user, 1:article',
+    default: 1
   })
   type: number;
 

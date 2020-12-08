@@ -16,8 +16,10 @@ export class CategoryService {
 
   async createCategory(params:NewCategory){
     try {
+      console.log('params\n\n\n', params)
       let category = new Category();
-      Object.assign(category,params)
+      category = { ...category, ...params }
+      // Object.assign(category, params)
       return await this.categoryModel.save(category);
     } catch (error) {
       this.ctx.logger.error(error)
@@ -27,9 +29,10 @@ export class CategoryService {
 
   async modifyCategory(params: ModifyCategory){
     try {
-      let category = new Category();
-      const { uid, ...rest } = Object.assign(category,params)
-      return await this.categoryModel.update(rest,{uid});
+      const { uid, ...rest } = params
+      let qb = this.categoryModel
+          .createQueryBuilder('category')
+      return await qb.update(rest).where('uid = :uid', { uid }).execute()
     } catch (error) {
       this.ctx.logger.error(error)
       return false
@@ -46,7 +49,6 @@ export class CategoryService {
       if(title){
         const total = qb.where('title = :title',{title:`%${title}%`})
           .getCount()
-
         const result = qb.where('title = :title',{title:`%${title}%`})
           .skip(pageSize * (filter.pageNo - 1))
           .take(pageSize)

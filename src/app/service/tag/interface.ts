@@ -1,7 +1,7 @@
 export interface NewTag {
   title: string,
   desc: string,
-  type: number,
+  type?: number,
 }
 
 export interface ModifyTag extends NewTag {
